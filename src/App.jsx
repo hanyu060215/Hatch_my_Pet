@@ -24,6 +24,7 @@ function App() {
       <div className="trivia-bar blank-bar">
         <p className="bar-text">Placeholder trivia bar · test copy only</p>
       </div>
+
     </div>
   );
 }
