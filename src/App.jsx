@@ -9,15 +9,15 @@ function App() {
   return (
     <div className="app-shell">
       <div className="screen-content">
-        <header className="hud">
-          <button className="start-button" onClick={() => setStartTimer(true)}>
-            Start
-          </button>
+        <div className="hud">
+            <button className="start-button" onClick={() => setStartTimer(true)}>
+                Start
+            </button>
+        </div>
 
-          <div className="timer">
+        <div className="timer">
             <Timer duration={60} isActive={startTimer} />
-          </div>
-        </header>
+        </div>
       </div>
 
       <div className="trivia-bar">

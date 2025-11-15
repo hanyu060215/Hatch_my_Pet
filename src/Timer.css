@@ -1,3 +1,14 @@
+.hud {
+  position: absolute;
+  top: 20px;      /* Change this to move both vertically */
+  left: 24px;     /* Change this to move both horizontally */
+  right: 24px;    /* Maintains spacing from right edge */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 10;
+}
+
 .timer-container {
   min-width: 120px;
   font-family: 'Space Grotesk', 'Inter', sans-serif;
@@ -10,7 +21,6 @@
 }
 
 .timer {
-  position: relative;
   min-width: 60px;
   display: flex;
   justify-content: flex-end;
@@ -21,6 +31,12 @@
 }
 
 .start-button {
+  position: relative;
+  top: 70px;
+  left: 290px;
+  min-width: 60px;
+  display: flex;
+  justify-content: flex-end;
   border: none;
   border-radius: 999px;
   padding: 10px 20px;
