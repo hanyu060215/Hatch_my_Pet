@@ -1,3 +1,14 @@
+.hud {
+  position: absolute;
+  top: 20px;      /* Change this to move both vertically */
+  left: 24px;     /* Change this to move both horizontally */
+  right: 24px;    /* Maintains spacing from right edge */
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  z-index: 10;
+}
+
 .timer-container {
   min-width: 120px;
   font-family: 'Space Grotesk', 'Inter', sans-serif;

@@ -9,10 +9,11 @@ function App() {
   return (
     <div className="app-shell">
       <div className="screen-content">
-        <header className="hud">
-          <button className="start-button" onClick={() => setStartTimer(true)}>
-            Start
-          </button>
+        <div className="hud">
+            <button className="start-button" onClick={() => setStartTimer(true)}>
+                Start
+            </button>
+        </div>
 
           <div className="timer">
             <Timer duration={60} isActive={startTimer} />
@@ -23,6 +24,7 @@ function App() {
       <div className="trivia-bar">
         <p className="bar-text">Placeholder trivia bar · test copy only</p>
       </div>
+
     </div>
   );
 }
