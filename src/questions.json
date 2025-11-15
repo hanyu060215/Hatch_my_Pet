@@ -1,0 +1,52 @@
+{
+  "Movies": [
+    {"id":1,"question":"Inception was directed by Christopher Nolan.","answer":true,"category":"Movies","difficulty":3,"tags":["Inception","Christopher Nolan","Director"],"learn_more":"https://en.wikipedia.org/wiki/Inception"},
+    {"id":2,"question":"The movie 'Titanic'  was released in 1997.","answer":true,"category":"Movies","difficulty":2,"tags":["Titanic","James Cameron","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Titanic_(1997_film)"},
+    {"id":3,"question":"The Avengers was released before Iron Man.","answer":false,"category":"Movies","difficulty":3,"tags":["Avengers","Iron Man","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/The_Avengers_(2012_film)"},
+    {"id":4,"question":"The movie 'Avatar' was directed by Steven Spielberg.","answer":false,"category":"Movies","difficulty":2,"tags":["Avatar","James Cameron","Director"],"learn_more":"https://en.wikipedia.org/wiki/Avatar_(2009_film)"},
+    {"id":5,"question":"'The Godfather' is based on a novel by Mario Puzo.","answer":true,"category":"Movies","difficulty":3,"tags":["The Godfather","Mario Puzo","Novel"],"learn_more":"https://en.wikipedia.org/wiki/The_Godfather_(film)"},
+    {"id":6,"question":"The movie 'Frozen' won the Academy Award for Best Animated Feature.","answer":true,"category":"Movies","difficulty":2,"tags":["Frozen","Oscar","Animated Feature"],"learn_more":"https://en.wikipedia.org/wiki/Frozen_(2013_film)"},
+    {"id":7,"question":"The Dark Knight features Heath Ledger as the Joker.","answer":true,"category":"Movies","difficulty":3,"tags":["The Dark Knight","Heath Ledger","Joker"],"learn_more":"https://en.wikipedia.org/wiki/The_Dark_Knight_(film)"},
+    {"id":8,"question":"Harry Potter and the Philosopher's Stone was released in 2001.","answer":true,"category":"Movies","difficulty":2,"tags":["Harry Potter","Release Year","Philosopher's Stone"],"learn_more":"https://en.wikipedia.org/wiki/Harry_Potter_and_the_Philosopher%27s_Stone_(film)"},
+    {"id":9,"question":"'La La Land' was directed by Damien Chazelle.","answer":true,"category":"Movies","difficulty":3,"tags":["La La Land","Damien Chazelle","Director"],"learn_more":"https://en.wikipedia.org/wiki/La_La_Land"},
+    {"id":10,"question":"The movie 'Jaws' was released in 1980.","answer":false,"category":"Movies","difficulty":2,"tags":["Jaws","Steven Spielberg","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Jaws_(film)"}
+  ],
+  "Music": [
+    {"id":11,"question":"Taylor Swift released her album '1989' in 2014.","answer":true,"category":"Music","difficulty":2,"tags":["Taylor Swift","1989","Album"],"learn_more":"https://en.wikipedia.org/wiki/1989_(Taylor_Swift_album)"},
+    {"id":12,"question":"The Beatles released 'Sgt. Pepper's Lonely Hearts Club Band' in 1967.","answer":true,"category":"Music","difficulty":3,"tags":["The Beatles","Sgt. Pepper","Album"],"learn_more":"https://en.wikipedia.org/wiki/Sgt._Pepper%27s_Lonely_Hearts_Club_Band"},
+    {"id":13,"question":"Beyoncé's debut solo album was 'Lemonade'.","answer":false,"category":"Music","difficulty":3,"tags":["Beyoncé","Debut Album","Lemonade"],"learn_more":"https://en.wikipedia.org/wiki/Beyonc%C3%A9"},
+    {"id":14,"question":"Michael Jackson was known as the 'King of Pop'.","answer":true,"category":"Music","difficulty":2,"tags":["Michael Jackson","King of Pop"],"learn_more":"https://en.wikipedia.org/wiki/Michael_Jackson"},
+    {"id":15,"question":"Ed Sheeran's song 'Shape of You' was released in 2017.","answer":true,"category":"Music","difficulty":2,"tags":["Ed Sheeran","Shape of You","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Shape_of_You"},
+    {"id":16,"question":"Adele won an Academy Award for 'Hello'.","answer":false,"category":"Music","difficulty":3,"tags":["Adele","Hello","Awards"],"learn_more":"https://en.wikipedia.org/wiki/Adele"},
+    {"id":17,"question":"The band Coldplay released the album 'Parachutes' in 2000.","answer":true,"category":"Music","difficulty":2,"tags":["Coldplay","Parachutes","Album"],"learn_more":"https://en.wikipedia.org/wiki/Parachutes_(Coldplay_album)"},
+    {"id":18,"question":"Lady Gaga performed at the 2017 Super Bowl halftime show.","answer":true,"category":"Music","difficulty":2,"tags":["Lady Gaga","Super Bowl","Performance"],"learn_more":"https://en.wikipedia.org/wiki/Lady_Gaga"},
+    {"id":19,"question":"Kanye West's real name is Shawn Carter.","answer":false,"category":"Music","difficulty":3,"tags":["Kanye West","Real Name"],"learn_more":"https://en.wikipedia.org/wiki/Kanye_West"},
+    {"id":20,"question":"Billie Eilish's debut album is 'When We All Fall Asleep, Where Do We Go?'.","answer":true,"category":"Music","difficulty":2,"tags":["Billie Eilish","Debut Album"],"learn_more":"https://en.wikipedia.org/wiki/When_We_All_Fall_Asleep,_Where_Do_We_Go%3F"}
+  ],
+  "Celebrity": [
+    {"id":21,"question":"Leonardo DiCaprio won his first Oscar for 'The Revenant'.","answer":true,"category":"Celebrity","difficulty":3,"tags":["Leonardo DiCaprio","Oscar","The Revenant"],"learn_more":"https://en.wikipedia.org/wiki/Leonardo_DiCaprio"},
+    {"id":22,"question":"Beyoncé performed at the 2013 Super Bowl halftime show.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Beyoncé","Super Bowl","Performance"],"learn_more":"https://en.wikipedia.org/wiki/Beyonc%C3%A9"},
+    {"id":23,"question":"Chris Hemsworth played the role of Thor in the Marvel Cinematic Universe.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Chris Hemsworth","Thor","MCU"],"learn_more":"https://en.wikipedia.org/wiki/Chris_Hemsworth"},
+    {"id":24,"question":"Emma Watson starred as Hermione in the Harry Potter films.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Emma Watson","Hermione","Harry Potter"],"learn_more":"https://en.wikipedia.org/wiki/Emma_Watson"},
+    {"id":25,"question":"Brad Pitt won his first Oscar for acting in 'Fight Club'.","answer":false,"category":"Celebrity","difficulty":3,"tags":["Brad Pitt","Oscar","Fight Club"],"learn_more":"https://en.wikipedia.org/wiki/Brad_Pitt"},
+    {"id":26,"question":"Dwayne 'The Rock' Johnson was a professional wrestler before acting.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Dwayne Johnson","Wrestling","Actor"],"learn_more":"https://en.wikipedia.org/wiki/Dwayne_Johnson"},
+    {"id":27,"question":"Oprah Winfrey hosted 'The Oprah Winfrey Show'.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Oprah Winfrey","Talk Show"],"learn_more":"https://en.wikipedia.org/wiki/The_Oprah_Winfrey_Show"},
+    {"id":28,"question":"Angelina Jolie won an Oscar for Best Director.","answer":false,"category":"Celebrity","difficulty":3,"tags":["Angelina Jolie","Oscar","Director"],"learn_more":"https://en.wikipedia.org/wiki/Angelina_Jolie"},
+    {"id":29,"question":"Robert Downey Jr. played Iron Man in the MCU.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Robert Downey Jr.","Iron Man","MCU"],"learn_more":"https://en.wikipedia.org/wiki/Robert_Downey_Jr."},
+    {"id":30,"question":"Scarlett Johansson starred as Black Widow in Marvel movies.","answer":true,"category":"Celebrity","difficulty":2,"tags":["Scarlett Johansson","Black Widow","Marvel"],"learn_more":"https://en.wikipedia.org/wiki/Scarlett_Johansson"}
+  ],
+  "Games": [
+    {"id":31,"question":"'The Legend of Zelda: Breath of the Wild' was released for Nintendo Switch in 2017.","answer":true,"category":"Games","difficulty":3,"tags":["Zelda","Switch","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/The_Legend_of_Zelda:_Breath_of_the_Wild"},
+    {"id":32,"question":"'Minecraft' was originally created by Markus Persson in 2009.","answer":true,"category":"Games","difficulty":2,"tags":["Minecraft","Markus Persson","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Minecraft"},
+    {"id":33,"question":"'Fortnite' is developed by Epic Games.","answer":true,"category":"Games","difficulty":2,"tags":["Fortnite","Epic Games","Developer"],"learn_more":"https://en.wikipedia.org/wiki/Fortnite"},
+    {"id":34,"question":"The game 'Overwatch' was released in 2016.","answer":true,"category":"Games","difficulty":2,"tags":["Overwatch","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Overwatch"},
+    {"id":35,"question":"'Super Mario Odyssey' was released for PlayStation 4.","answer":false,"category":"Games","difficulty":2,"tags":["Super Mario Odyssey","Nintendo Switch","Release"],"learn_more":"https://en.wikipedia.org/wiki/Super_Mario_Odyssey"},
+    {"id":36,"question":"'The Witcher 3: Wild Hunt' was developed by CD Projekt Red.","answer":true,"category":"Games","difficulty":3,"tags":["Witcher 3","CD Projekt Red","Developer"],"learn_more":"https://en.wikipedia.org/wiki/The_Witcher_3:_Wild_Hunt"},
+    {"id":37,"question":"Pac-Man was released in the 1980s.","answer":true,"category":"Games","difficulty":2,"tags":["Pac-Man","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Pac-Man"},
+    {"id":38,"question":"'Call of Duty: Modern Warfare' is a board game.","answer":false,"category":"Games","difficulty":2,"tags":["Call of Duty","Game Type"],"learn_more":"https://en.wikipedia.org/wiki/Call_of_Duty:_Modern_Warfare_(2019_video_game)"},
+    {"id":39,"question":"'Among Us' gained popularity in 2020.","answer":true,"category":"Games","difficulty":2,"tags":["Among Us","Popularity","Year"],"learn_more":"https://en.wikipedia.org/wiki/Among_Us"},
+    {"id":40,"question":"'League of Legends' was developed by Riot Games.","answer":true,"category":"Games","difficulty":2,"tags":["League of Legends","Riot Games","Developer"],"learn_more":"https://en.wikipedia.org/wiki/League_of_Legends"}
+  ]
+
+
+}
