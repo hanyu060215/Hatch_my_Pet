@@ -1,7 +1,7 @@
 {
   "Movies": [
     {"id":1,"question":"Inception was directed by Christopher Nolan.","answer":true,"category":"Movies","difficulty":3,"tags":["Inception","Christopher Nolan","Director"],"learn_more":"https://en.wikipedia.org/wiki/Inception"},
-    {"id":2,"question":"The movie 'Titanic'  was released in 1997.","answer":true,"category":"Movies","difficulty":2,"tags":["Titanic","James Cameron","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Titanic_(1997_film)"},
+    {"id":2,"question":"The movie 'Titanic' was released in 1997.","answer":true,"category":"Movies","difficulty":2,"tags":["Titanic","James Cameron","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/Titanic_(1997_film)"},
     {"id":3,"question":"The Avengers was released before Iron Man.","answer":false,"category":"Movies","difficulty":3,"tags":["Avengers","Iron Man","Release Year"],"learn_more":"https://en.wikipedia.org/wiki/The_Avengers_(2012_film)"},
     {"id":4,"question":"The movie 'Avatar' was directed by Steven Spielberg.","answer":false,"category":"Movies","difficulty":2,"tags":["Avatar","James Cameron","Director"],"learn_more":"https://en.wikipedia.org/wiki/Avatar_(2009_film)"},
     {"id":5,"question":"'The Godfather' is based on a novel by Mario Puzo.","answer":true,"category":"Movies","difficulty":3,"tags":["The Godfather","Mario Puzo","Novel"],"learn_more":"https://en.wikipedia.org/wiki/The_Godfather_(film)"},
@@ -48,5 +48,5 @@
     {"id":40,"question":"'League of Legends' was developed by Riot Games.","answer":true,"category":"Games","difficulty":2,"tags":["League of Legends","Riot Games","Developer"],"learn_more":"https://en.wikipedia.org/wiki/League_of_Legends"}
   ]
 
-
+  
 }
