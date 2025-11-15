@@ -1,17 +1,19 @@
 .timer-container {
-  position: fixed;
-  top: 20px;
-  right: 20px;
-  font-family: 'Arial', sans-serif;
-  background: #ffffffcc; /* semi-transparent white */
-  padding: 1px 30px;
-  border-radius: 6px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+  min-width: 120px;
+  font-family: 'Space Grotesk', 'Inter', sans-serif;
+  background: rgba(255, 255, 255, 0.18);
+  padding: 8px 18px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 25px rgba(10, 0, 28, 0.35);
+  text-align: center;
 }
 
 .timer {
-  font-size: 2rem;
-  color: #333;
+  font-size: 1.6rem;
+  color: #fdfcff;
+  letter-spacing: 0.08em;
+  margin: 0;
 }
 
 .buttons {

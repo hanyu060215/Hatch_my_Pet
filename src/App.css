@@ -10,12 +10,49 @@
   overflow: hidden;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: space-between;
 }
 
 .blank-shell {
   background: radial-gradient(circle at 25% 20%, #5d5bff 0%, rgba(34, 19, 60, 0.95) 45%, #070212 95%),
     linear-gradient(160deg, rgba(253, 137, 181, 0.6) 0%, rgba(17, 13, 42, 0) 50%);
+}
+
+.screen-content {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  padding: 24px;
+  gap: 16px;
+}
+
+.hud {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.start-button {
+  border: none;
+  border-radius: 999px;
+  padding: 10px 20px;
+  background: linear-gradient(120deg, #ffd369, #ffb347);
+  color: #261701;
+  font-weight: 600;
+  cursor: pointer;
+  box-shadow: 0 12px 24px rgba(255, 179, 71, 0.45);
+}
+
+.timer-slot {
+  position: relative;
+  min-width: 120px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.timer-slot .timer-container {
+  min-width: 120px;
 }
 
 .empty-space {
