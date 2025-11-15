@@ -1,27 +1,26 @@
 import { useState } from "react";
 import Timer from "./Timer.jsx";
+import "./Trivia_bar.css";
 import "./App.css";
 
 function App() {
   const [startTimer, setStartTimer] = useState(false);
 
   return (
-    <div className="app-shell blank-shell">
+    <div className="app-shell">
       <div className="screen-content">
-        <header className="hud">
-          <button className="start-button" onClick={() => setStartTimer(true)}>
-            Start
-          </button>
+        <div className="hud">
+            <button className="start-button" onClick={() => setStartTimer(true)}>
+                Start
+            </button>
+        </div>
 
-          <div className="timer-slot">
+        <div className="timer">
             <Timer duration={60} isActive={startTimer} />
-          </div>
-        </header>
-
-        <div className="empty-space" aria-hidden="true" />
+        </div>
       </div>
 
-      <div className="trivia-bar blank-bar">
+      <div className="trivia-bar">
         <p className="bar-text">Placeholder trivia bar · test copy only</p>
       </div>
 
