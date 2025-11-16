@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useState } from "react"
+import { useCallback, useState } from "react"
 import Timer from "./Timer.jsx"
 import ProgressBar from "./Progress_bar.jsx"
 import TriviaBar from "./Trivia_bar.jsx"
@@ -6,18 +6,30 @@ import generateTriviaQuestions from "./questions.json"
 import "./App.css"
 import "./Trivia_bar.css"
 
+const GAME_STATES = {
+  idle: "idle",
+  playing: "playing",
+  ended: "ended",
+}
+
 function App() {
-  const [startTimer, setStartTimer] = useState(false)
+  const [gameState, setGameState] = useState(GAME_STATES.idle)
+  const [gameRound, setGameRound] = useState(0)
   const [questions, setQuestions] = useState([])
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0)
   const [selectedOption, setSelectedOption] = useState("")
   const [isCorrect, setIsCorrect] = useState(null)
   const [isLoadingQuestions, setIsLoadingQuestions] = useState(false)
   const [questionError, setQuestionError] = useState("")
+  const [correctCount, setCorrectCount] = useState(0)
+  const [endMessage, setEndMessage] = useState("")
 
-  const currentQuestion = questions[currentQuestionIndex] ?? null
+  const isPlaying = gameState === GAME_STATES.playing
+  const isGameOver = gameState === GAME_STATES.ended
+  const currentQuestion = isPlaying ? questions[currentQuestionIndex] ?? null : null
   const hasAnswered = Boolean(selectedOption)
   const hasMoreQuestions = currentQuestionIndex < questions.length - 1
+  const totalQuestions = Math.max(questions.length || generateTriviaQuestions.length || 0, 1)
 
   const resetAnswerState = useCallback(() => {
     setSelectedOption("")
@@ -34,21 +46,43 @@ function App() {
       setQuestions(aiQuestions)
       setCurrentQuestionIndex(0)
       resetAnswerState()
+      setCorrectCount(0)
     } catch (error) {
-      setQuestionError(error.message ?? "Could not load AI trivia")
+      setQuestionError(error.message ?? "Could not load trivia")
     } finally {
       setIsLoadingQuestions(false)
     }
   }, [resetAnswerState])
 
-  useEffect(() => {
-    fetchQuestions()
-  }, [fetchQuestions])
-
   const handleOptionSelect = (option) => {
-    if (!currentQuestion || hasAnswered || isLoadingQuestions) return
+    if (!isPlaying || !currentQuestion || hasAnswered || isLoadingQuestions) return
     setSelectedOption(option)
-    setIsCorrect(option === currentQuestion.answer)
+    const answeredCorrectly = option === currentQuestion.answer
+    setIsCorrect(answeredCorrectly)
+    if (answeredCorrectly) {
+      setCorrectCount((prev) => prev + 1)
+    }
+  }
+
+  const endGame = useCallback(
+    (message = "Great run! Game over.") => {
+      setGameState(GAME_STATES.ended)
+      setEndMessage(message)
+      resetAnswerState()
+    },
+    [resetAnswerState]
+  )
+
+  const handleStart = () => {
+    if (isPlaying) return
+    setGameState(GAME_STATES.playing)
+    setEndMessage("")
+    setGameRound((prev) => prev + 1)
+    setQuestions([])
+    setCurrentQuestionIndex(0)
+    resetAnswerState()
+    setCorrectCount(0)
+    fetchQuestions()
   }
 
   const handleNextQuestion = () => {
@@ -57,36 +91,61 @@ function App() {
       setCurrentQuestionIndex((prev) => prev + 1)
       resetAnswerState()
     } else {
-      resetAnswerState()
-      fetchQuestions()
+      endGame("Mission complete! You finished every question.")
     }
   }
+
+  const handleManualEndGame = () => {
+    endGame("Nice work! You wrapped up this round.")
+  }
+
+  const handleTimeExpired = () => {
+    if (!isPlaying) return
+    endGame("Time's up! Thanks for playing.")
+  }
+
+  const startButtonLabel = isPlaying ? "Timer running" : isGameOver ? "Play again" : "Start"
 
   return (
     <div className="app-shell">
       <div className="screen-content">
         <div className="hud">
-          <ProgressBar score={90} maxScore={100} />
-          <Timer duration={60} isActive={startTimer} />
+          <ProgressBar score={correctCount} maxScore={totalQuestions} />
+          <Timer key={gameRound} duration={60} isActive={isPlaying} onComplete={handleTimeExpired} />
         </div>
 
-        <button className="start-button" onClick={() => setStartTimer(true)}>
-          {startTimer ? "Timer running" : "Start"}
+        <button className="start-button" onClick={handleStart} disabled={isPlaying}>
+          {startButtonLabel}
         </button>
       </div>
 
-      <TriviaBar
-        question={currentQuestion}
-        loading={isLoadingQuestions}
-        error={questionError}
-        onRefresh={fetchQuestions}
-        onSelectOption={handleOptionSelect}
-        selectedOption={selectedOption}
-        isCorrect={isCorrect}
-        hasAnswered={hasAnswered}
-        hasMoreQuestions={hasMoreQuestions}
-        onNext={handleNextQuestion}
-      />
+      {isPlaying ? (
+        <TriviaBar
+          question={currentQuestion}
+          loading={isLoadingQuestions}
+          error={questionError}
+          onSelectOption={handleOptionSelect}
+          selectedOption={selectedOption}
+          isCorrect={isCorrect}
+          hasAnswered={hasAnswered}
+          hasMoreQuestions={hasMoreQuestions}
+          onNext={handleNextQuestion}
+          onEndGame={handleManualEndGame}
+        />
+      ) : (
+        <div className="trivia-placeholder">
+          <p className="placeholder-eyebrow">{isGameOver ? "Game over" : "Trivia challenge"}</p>
+          {isGameOver ? (
+            <>
+              <p className="placeholder-body">{endMessage}</p>
+              <p className="placeholder-subtext">Score: {correctCount}/{totalQuestions}</p>
+              <p className="placeholder-subtext">Press Play again to launch another round.</p>
+            </>
+          ) : (
+            <p className="placeholder-body">Tap Start to reveal your first cosmic question.</p>
+          )}
+        </div>
+      )}
     </div>
   )
 }

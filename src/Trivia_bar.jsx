@@ -5,13 +5,13 @@ const TriviaBar = ({
   question,
   loading,
   error,
-  onRefresh,
   onSelectOption,
   selectedOption,
   isCorrect,
   onNext,
   hasAnswered,
   hasMoreQuestions,
+  onEndGame,
 }) => {
   const disabled = loading || !question
 
@@ -29,6 +29,9 @@ const TriviaBar = ({
 
       {!error && (
         <div className="question-panel" aria-live="polite">
+          {!question && loading && <p className="bar-text">Summoning your next question…</p>}
+          {!question && !loading && <p className="bar-text">Preparing your question…</p>}
+
           {question && (
             <article className="question-card">
               <div className="card-meta">
@@ -69,10 +72,10 @@ const TriviaBar = ({
               <div className="question-actions">
                 <button
                   className="refresh-button primary"
-                  onClick={hasMoreQuestions ? onNext : onRefresh}
+                  onClick={hasMoreQuestions ? onNext : onEndGame}
                   disabled={!hasAnswered || loading}
                 >
-                  {hasMoreQuestions ? 'Next question' : 'End Game'}
+                  {hasMoreQuestions ? 'Next question' : 'End game'}
                 </button>
               </div>
             </article>
@@ -94,26 +97,26 @@ TriviaBar.propTypes = {
   }),
   loading: PropTypes.bool,
   error: PropTypes.string,
-  onRefresh: PropTypes.func,
   onSelectOption: PropTypes.func,
   selectedOption: PropTypes.string,
   isCorrect: PropTypes.bool,
   onNext: PropTypes.func,
   hasAnswered: PropTypes.bool,
   hasMoreQuestions: PropTypes.bool,
+  onEndGame: PropTypes.func,
 }
 
 TriviaBar.defaultProps = {
   question: null,
   loading: false,
   error: '',
-  onRefresh: () => {},
   onSelectOption: () => {},
   selectedOption: '',
   isCorrect: null,
   onNext: () => {},
   hasAnswered: false,
   hasMoreQuestions: false,
+  onEndGame: () => {},
 }
 
 export default TriviaBar

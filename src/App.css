@@ -59,3 +59,39 @@
   cursor: default;
   box-shadow: none;
 }
+
+.trivia-placeholder {
+  position: relative;
+  width: calc(100% - 40px);
+  margin: 0 auto 18px;
+  padding: 32px 24px 48px;
+  border-top-left-radius: 32px;
+  border-top-right-radius: 32px;
+  border-top: 1px solid rgba(255, 255, 255, 0.15);
+  background: linear-gradient(120deg, rgba(255, 255, 255, 0.05), rgba(121, 214, 255, 0.08));
+  text-align: center;
+  color: rgba(255, 255, 255, 0.8);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.25),
+    0 -20px 40px rgba(4, 0, 20, 0.4);
+}
+
+.placeholder-eyebrow {
+  margin: 0 0 8px;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.55);
+}
+
+.placeholder-body {
+  margin: 0;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.placeholder-subtext {
+  margin: 6px 0 0;
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.75);
+}
