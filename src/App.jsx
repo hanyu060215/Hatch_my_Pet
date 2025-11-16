@@ -12,6 +12,34 @@ const GAME_STATES = {
   ended: "ended",
 }
 
+const DIFFICULTY_LABELS = {
+  1: "Easy",
+  2: "Medium",
+  3: "Hard",
+  4: "Challenge",
+}
+
+const FALLBACK_QUESTIONS = Array.isArray(generateTriviaQuestions)
+  ? generateTriviaQuestions.map((item, index) => {
+      const options = Array.isArray(item.options) ? item.options : []
+      const answerIndex = typeof item.correct_index === "number" ? item.correct_index : 0
+      return {
+        id: String(item.id ?? index),
+        category: item.category ?? "General",
+        difficulty:
+          typeof item.difficulty === "string"
+            ? item.difficulty
+            : DIFFICULTY_LABELS[item.difficulty] ?? "Medium",
+        question: item.question ?? "",
+        options,
+        answer: options[answerIndex] ?? "",
+      }
+    })
+  : []
+
+const API_BASE_URL = (import.meta.env.VITE_API_BASE_URL || "").replace(/\/$/, "")
+const DEFAULT_KEYWORDS = "space, animals, math"
+
 function App() {
   const [gameState, setGameState] = useState(GAME_STATES.idle)
   const [gameRound, setGameRound] = useState(0)
@@ -24,6 +52,10 @@ function App() {
   const [correctCount, setCorrectCount] = useState(0)
   const [endMessage, setEndMessage] = useState("")
   const [isMuted, setIsMuted] = useState(false)
+  const [keywordInput, setKeywordInput] = useState("")
+  const [keywordError, setKeywordError] = useState("")
+  const audioRef = useRef(null)
+  const generatedAudioRef = useRef(null)
 
   const isPlaying = gameState === GAME_STATES.playing
   const isGameOver = gameState === GAME_STATES.ended
@@ -37,54 +69,108 @@ function App() {
     setIsCorrect(null)
   }, [])
 
-  // const fetchQuestions = useCallback(async () => {
-  //   setIsLoadingQuestions(true)
-  //   setQuestionError("")
-  //   try {
-  //     const aiQuestions = Array.isArray(generateTriviaQuestions)
-  //       ? [...generateTriviaQuestions]
-  //       : []
-  //     setQuestions(aiQuestions)
-  //     setCurrentQuestionIndex(0)
-  //     resetAnswerState()
-  //     setCorrectCount(0)
-  //   } catch (error) {
-  //     setQuestionError(error.message ?? "Could not load trivia")
-  //   } finally {
-  //     setIsLoadingQuestions(false)
-  //   }
-  // }, [resetAnswerState])
+ 
+  const fetchQuestions = useCallback(async (keywordString = DEFAULT_KEYWORDS, lastScore = 0) => {
+    setIsLoadingQuestions(true)
+    setQuestionError("")
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/generateTrivia`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          keywords: keywordString?.trim().length ? keywordString.trim() : DEFAULT_KEYWORDS,
+          lastRoundScore: typeof lastScore === "number" ? lastScore : 0,
+        }),
+      })
 
-  const fetchQuestions = useCallback(async () => {
-  setIsLoadingQuestions(true)
-  setQuestionError("")
-  try {
-    const response = await fetch("/api/generateTrivia", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        keywords: "space, animals, math", // you can later replace with user input
-        lastRoundScore: correctCount, // adaptive difficulty
-      }),
-    })
+      if (!response.ok) {
+        const errorPayload = await response.json().catch(() => null)
+        const message = errorPayload?.error || "Failed to fetch trivia questions"
+        throw new Error(message)
+      }
 
-    if (!response.ok) throw new Error("Failed to fetch trivia questions")
+      const aiQuestions = await response.json()
 
-    const aiQuestions = await response.json()
+      if (!Array.isArray(aiQuestions)) throw new Error("Invalid trivia data received")
 
-    if (!Array.isArray(aiQuestions)) throw new Error("Invalid trivia data received")
+      setQuestions(aiQuestions)
+      setCurrentQuestionIndex(0)
+      resetAnswerState()
+      setCorrectCount(0)
+    } catch (error) {
+      console.error("AI trivia fetch failed", error)
+      if (FALLBACK_QUESTIONS.length > 0) {
+        setQuestions(FALLBACK_QUESTIONS)
+        setCurrentQuestionIndex(0)
+        resetAnswerState()
+        setCorrectCount(0)
+        setQuestionError("Live AI trivia unavailable — using offline deck.")
+      } else {
+        setQuestionError(error.message ?? "Could not load trivia")
+      }
+    } finally {
+      setIsLoadingQuestions(false)
+    }
+  }, [resetAnswerState])
 
-    setQuestions(aiQuestions)
-    setCurrentQuestionIndex(0)
-    resetAnswerState()
-    setCorrectCount(0)
-  } catch (error) {
-    console.error(error)
-    setQuestionError(error.message ?? "Could not load trivia")
-  } finally {
-    setIsLoadingQuestions(false)
-  }
-}, [resetAnswerState, correctCount])
+  const stopGeneratedAudio = useCallback(() => {
+    const instance = generatedAudioRef.current
+    if (!instance) return
+    try {
+      instance.osc.stop()
+      instance.ctx.close()
+    } catch (error) {
+      console.error("Unable to stop generated audio", error)
+    }
+    generatedAudioRef.current = null
+  }, [])
+
+  const startGeneratedAudio = useCallback(() => {
+    if (generatedAudioRef.current) return
+    try {
+      const AudioContextClass = window.AudioContext || window.webkitAudioContext
+      if (!AudioContextClass) return
+      const ctx = new AudioContextClass()
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = "sine"
+      osc.frequency.value = 432
+      gain.gain.value = 0.08
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start()
+      generatedAudioRef.current = { ctx, osc, gain }
+    } catch (error) {
+      console.error("Unable to start generated audio", error)
+    }
+  }, [])
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    if (isMuted) {
+      audio.pause()
+      audio.currentTime = 0
+      stopGeneratedAudio()
+      return
+    }
+    if (gameState === GAME_STATES.playing) {
+      const playPromise = audio.play()
+      if (playPromise && typeof playPromise.then === "function") {
+        playPromise.catch(() => {})
+      }
+      stopGeneratedAudio()
+    }
+  }, [isMuted, gameState, stopGeneratedAudio])
+
+  useEffect(() => () => {
+    stopGeneratedAudio()
+    const audio = audioRef.current
+    if (audio) {
+      audio.pause()
+      audio.currentTime = 0
+    }
+  }, [stopGeneratedAudio])
 
 
   const handleOptionSelect = (option) => {
@@ -107,48 +193,78 @@ function App() {
         if (audio) audio.pause()
       } catch (e) {}
       // stop generated audio if active
-      try { stopGeneratedAudio() } catch (e) {}
+      try {
+        stopGeneratedAudio()
+      } catch (e) {}
     },
-    [resetAnswerState]
+    [resetAnswerState, stopGeneratedAudio]
   )
 
-  const handleStart = async () => {
-    if (isPlaying) return
+  const beginGame = useCallback(async (keywordString) => {
+    const lastScoreSnapshot = correctCount
     setGameState(GAME_STATES.playing)
     setEndMessage("")
     setGameRound((prev) => prev + 1)
     setQuestions([])
     setCurrentQuestionIndex(0)
     resetAnswerState()
-    setCorrectCount(0)
-    fetchQuestions()
-    // Try to play background audio (user gesture from Start button)
+    await fetchQuestions(keywordString, lastScoreSnapshot)
+    // Try to play background audio once the round starts
     try {
       const audio = audioRef.current
       if (audio) {
         const url = audio.src
-        // Check if the audio file exists on the server. Use HEAD to avoid downloading the body.
         try {
           const resp = await fetch(url, { method: "HEAD" })
           if (resp.ok && !isMuted) {
             const p = audio.play()
             if (p && typeof p.then === "function") p.catch(() => {})
-            try { stopGeneratedAudio() } catch (e) {}
+            try {
+              stopGeneratedAudio()
+            } catch (err) {}
           } else if (resp.ok && isMuted) {
-            // file exists but muted: ensure generated audio is stopped
-            try { stopGeneratedAudio() } catch (e) {}
+            try {
+              stopGeneratedAudio()
+            } catch (err) {}
           } else {
-            // file missing or server returned error -> use generated fallback
-            try { startGeneratedAudio() } catch (e) {}
+            try {
+              startGeneratedAudio()
+            } catch (err) {}
           }
-        } catch (e) {
-          // network error or CORS -> fallback to generated audio
-          try { startGeneratedAudio() } catch (e) {}
+        } catch (err) {
+          try {
+            startGeneratedAudio()
+          } catch (err2) {}
         }
       } else {
-        try { startGeneratedAudio() } catch (e) {}
+        try {
+          startGeneratedAudio()
+        } catch (err) {}
       }
-    } catch (e) {}
+    } catch (err) {}
+  }, [correctCount, fetchQuestions, isMuted, resetAnswerState, startGeneratedAudio, stopGeneratedAudio])
+
+  const handleStart = async (event) => {
+    if (isPlaying) return
+    if (event) event.preventDefault()
+
+    const sanitized = keywordInput
+      .split(",")
+      .map((word) => word.trim())
+      .filter((word) => word.length > 0)
+
+    if (sanitized.length === 0) {
+      setKeywordError("Enter at least one keyword in the Trivia Menu.")
+      return
+    }
+    if (sanitized.length > 3) {
+      setKeywordError("Please limit yourself to 3 keywords.")
+      return
+    }
+
+    setKeywordError("")
+    const keywordString = sanitized.join(", ")
+    await beginGame(keywordString)
   }
 
   const handleNextQuestion = () => {
@@ -186,6 +302,30 @@ function App() {
     if (correctCount >= 1) return "/egg3.png"
     return "/egg1.png"
   })()
+
+  const keywordMenu = (
+    <div className="keyword-menu">
+      <p className="keyword-menu-title">Trivia Menu</p>
+      <p className="keyword-subtext">Type 1-3 keywords (comma separated) to set the topic.</p>
+      <form className="keyword-inline-form" onSubmit={handleStart}>
+        <textarea
+          value={keywordInput}
+          onChange={(event) => {
+            setKeywordInput(event.target.value)
+            setKeywordError("")
+          }}
+          placeholder="e.g., volcanoes, jazz, robots"
+          rows={3}
+          disabled={isPlaying}
+        />
+        {keywordError && <p className="keyword-error">{keywordError}</p>}
+        <button type="submit" className="keyword-submit" disabled={isPlaying}>
+          Lock In Topic
+        </button>
+      </form>
+      <p className="keyword-hint">Hit Start/Play Again after locking in your topic.</p>
+    </div>
+  )
 
   return (
     <div className="app-shell" style={{ "--pet-bg-image": `url(${petStageImage})` }}>
@@ -246,6 +386,7 @@ function App() {
               <p className="placeholder-body">{endMessage}</p>
               <p className="placeholder-subtext">Score: {correctCount}/{totalQuestions}</p>
               <p className="placeholder-subtext">Press Play again to launch another round.</p>
+              {keywordMenu}
             </>
           ) : isPlaying ? (
             <>
@@ -259,7 +400,7 @@ function App() {
               )}
             </>
           ) : (
-            <p className="placeholder-body">Tap Start to reveal your first cosmic question.</p>
+            keywordMenu
           )}
         </div>
       )}
