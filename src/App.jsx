@@ -106,8 +106,19 @@ function App() {
 
   const startButtonLabel = isPlaying ? "Timer running" : isGameOver ? "Play again" : "Start"
 
+  const shouldShowTrivia = isPlaying && currentQuestion
+
+  const petStageImage = (() => {
+    if (correctCount >= 5) return "/lv4.png"
+    if (correctCount >= 4) return "/lv3.png"
+    if (correctCount >= 3) return "/lv2.png"
+    if (correctCount >= 2) return "/egg5.png"
+    if (correctCount >= 1) return "/egg3.png"
+    return "/egg1.png"
+  })()
+
   return (
-    <div className="app-shell">
+    <div className="app-shell" style={{ "--pet-bg-image": `url(${petStageImage})` }}>
       <div className="screen-content">
         <div className="hud">
           <ProgressBar score={correctCount} maxScore={totalQuestions} />
@@ -117,9 +128,10 @@ function App() {
         <button className="start-button" onClick={handleStart} disabled={isPlaying}>
           {startButtonLabel}
         </button>
+
       </div>
 
-      {isPlaying ? (
+      {shouldShowTrivia ? (
         <TriviaBar
           question={currentQuestion}
           loading={isLoadingQuestions}
@@ -134,12 +146,25 @@ function App() {
         />
       ) : (
         <div className="trivia-placeholder">
-          <p className="placeholder-eyebrow">{isGameOver ? "Game over" : "Trivia challenge"}</p>
+          <p className="placeholder-eyebrow">
+            {isGameOver ? "Game over" : isPlaying ? "Preparing trivia" : "Trivia challenge"}
+          </p>
           {isGameOver ? (
             <>
               <p className="placeholder-body">{endMessage}</p>
               <p className="placeholder-subtext">Score: {correctCount}/{totalQuestions}</p>
               <p className="placeholder-subtext">Press Play again to launch another round.</p>
+            </>
+          ) : isPlaying ? (
+            <>
+              <p className="placeholder-body">
+                {questionError ? "We hit a glitch fetching your question." : "Summoning your first cosmic question…"}
+              </p>
+              {questionError && (
+                <button className="placeholder-action" onClick={fetchQuestions} disabled={isLoadingQuestions}>
+                  {isLoadingQuestions ? "Retrying…" : "Try again"}
+                </button>
+              )}
             </>
           ) : (
             <p className="placeholder-body">Tap Start to reveal your first cosmic question.</p>

@@ -4,14 +4,35 @@
   aspect-ratio: 9 / 16;
   max-height: 90vh;
   border-radius: 36px;
-  background: radial-gradient(circle at 25% 20%, #5d5bff 0%, rgba(34, 19, 60, 0.95) 45%, #070212 95%),
-    linear-gradient(160deg, rgba(253, 137, 181, 0.6) 0%, rgba(17, 13, 42, 0) 50%);
   border: 1px solid rgba(255, 255, 255, 0.08);
   box-shadow: 0 25px 70px rgba(2, 0, 15, 0.7);
   overflow: hidden;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  background: radial-gradient(circle at 25% 20%, #5d5bff 0%, rgba(34, 19, 60, 0.95) 45%, #070212 95%),
+    linear-gradient(160deg, rgba(253, 137, 181, 0.6) 0%, rgba(17, 13, 42, 0) 50%);
+}
+
+.app-shell::after {
+  content: "";
+  position: absolute;
+  inset: -10%;
+  background-image: var(--pet-bg-image, url("/egg1.png"));
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  opacity: 0.4;
+  filter: saturate(1.1) contrast(1.05);
+  pointer-events: none;
+  animation: bg-drift 18s ease-in-out infinite alternate, bg-fade 0.65s ease forwards;
+  z-index: 0;
+  transition: background-image 0s linear 0.2s;
+}
+
+.app-shell > * {
+  position: relative;
+  z-index: 1;
 }
 
 .screen-content {
@@ -60,6 +81,29 @@
   box-shadow: none;
 }
 
+@keyframes bg-drift {
+  0% {
+    transform: translate(0, 0) scale(1);
+  }
+  50% {
+    transform: translate(0, -1.5%) scale(1.05);
+  }
+  100% {
+    transform: translate(0, 0.5%) scale(1.02);
+  }
+}
+
+@keyframes bg-fade {
+  0% {
+    opacity: 0.15;
+    filter: saturate(0.9) contrast(0.95);
+  }
+  100% {
+    opacity: 0.4;
+    filter: saturate(1.1) contrast(1.05);
+  }
+}
+
 .trivia-placeholder {
   position: relative;
   width: calc(100% - 40px);
@@ -94,4 +138,26 @@
   margin: 6px 0 0;
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.75);
+}
+
+.placeholder-action {
+  margin-top: 16px;
+  padding: 10px 22px;
+  border-radius: 999px;
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  background: transparent;
+  color: #fefbff;
+  font-weight: 600;
+  cursor: pointer;
+  transition: transform 150ms ease, border-color 150ms ease;
+}
+
+.placeholder-action:disabled {
+  opacity: 0.6;
+  cursor: default;
+}
+
+.placeholder-action:not(:disabled):hover {
+  transform: translateY(-1px);
+  border-color: rgba(255, 255, 255, 0.7);
 }
