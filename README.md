@@ -1,6 +1,6 @@
 <div align="center">
 
-# 🐣 Hatch My Pet
+# 🐕 Hatch My Pet
 
 **An AI-powered trivia game where your pet evolves as you answer questions!**
 
