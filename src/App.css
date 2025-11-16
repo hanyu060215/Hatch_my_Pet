@@ -95,3 +95,25 @@
   font-size: 0.9rem;
   color: rgba(255, 255, 255, 0.75);
 }
+
+/* Audio toggle button styles */
+.audio-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+  cursor: pointer;
+}
+
+.audio-toggle-btn svg {
+  display: block;
+}
+
+.audio-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
