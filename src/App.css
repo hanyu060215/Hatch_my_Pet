@@ -53,7 +53,7 @@
 }
 
 .start-button {
-  align-self: flex-start;
+  align-self: center;
   border: none;
   border-radius: 999px;
   padding: 12px 28px;
@@ -200,6 +200,11 @@
 
 .keyword-inline-form textarea:disabled {
   opacity: 0.6;
+}
+
+.keyword-inline-form textarea::placeholder {
+  color: #b6b0a5;   
+  opacity: 1;     
 }
 
 .keyword-error {

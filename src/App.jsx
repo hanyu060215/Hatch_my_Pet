@@ -328,7 +328,6 @@ function App() {
           Lock In Topic
         </button>
       </form>
-      <p className="keyword-hint">Hit Start/Play Again after locking in your topic.</p>
     </div>
   )
 
@@ -365,7 +364,7 @@ function App() {
         </button>
 
       </div>
-        <audio ref={audioRef} src="/background.mp3" preload="auto" />
+        <audio ref={audioRef} src="/test.mp3" preload="auto" />
 
 
       {shouldShowTrivia ? (
@@ -390,7 +389,6 @@ function App() {
             <>
               <p className="placeholder-body">{endMessage}</p>
               <p className="placeholder-subtext">Score: {correctCount}/{totalQuestions}</p>
-              <p className="placeholder-subtext">Press Play again to launch another round.</p>
               {keywordMenu}
             </>
           ) : isPlaying ? (
