@@ -1,0 +1,42 @@
+[
+	{
+		"id": "seed-virtual-01",
+		"category": "Virtual Pets",
+		"difficulty": "Easy",
+		"question": "What year was the original Tamagotchi released?",
+		"answer": "1996",
+		"options": ["1992", "1996", "2001", "1989"]
+	},
+	{
+		"id": "seed-virtual-02",
+		"category": "Cosmic Companions",
+		"difficulty": "Medium",
+		"question": "In our app lore, what snack fuels Nova the cosmic fox?",
+		"answer": "Starlit mochi bites",
+		"options": ["Nebula noodles", "Starlit mochi bites", "Lunar chips", "Comet crunch"]
+	},
+	{
+		"id": "seed-virtual-03",
+		"category": "Animal Facts",
+		"difficulty": "Medium",
+		"question": "Which animal has fingerprints nearly identical to humans?",
+		"answer": "Koala",
+		"options": ["Koala", "Chimpanzee", "Panda", "Otter"]
+	},
+	{
+		"id": "seed-virtual-04",
+		"category": "Entertainment",
+		"difficulty": "Challenge",
+		"question": "Which sci-fi film introduced a virtual pet named 'Bit'?",
+		"answer": "Tron",
+		"options": ["Blade Runner", "Tron", "The Matrix", "Ready Player One"]
+	},
+	{
+		"id": "seed-virtual-05",
+		"category": "Speed Round",
+		"difficulty": "Easy",
+		"question": "How many legs does a fox have?",
+		"answer": "Four",
+		"options": ["Two", "Four", "Six", "Eight"]
+	}
+]

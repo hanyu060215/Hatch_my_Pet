@@ -1,11 +1,119 @@
-import "./Triva_bar.css";
+import PropTypes from "prop-types"
+import "./Trivia_bar.css"
 
-const TriviaBar = () => {
+const TriviaBar = ({
+  question,
+  loading,
+  error,
+  onRefresh,
+  onSelectOption,
+  selectedOption,
+  isCorrect,
+  onNext,
+  hasAnswered,
+  hasMoreQuestions,
+}) => {
+  const disabled = loading || !question
+
   return (
     <div className="trivia-bar">
-       <p className="bar-text">Placeholder trivia bar · test copy only</p>
-    </div>
-  );
-};
+      <div className="bar-header">
+        <div>
+          <p className="eyebrow">Trivia challenge</p>
+          <h4>{question ? question.category : "Preparing next prompt"}</h4>
+        </div>
+        
+      </div>
 
-export default TriviaBar;
+      {error && <p className="bar-error">{error}</p>}
+
+      {!error && (
+        <div className="question-panel" aria-live="polite">
+          {question && (
+            <article className="question-card">
+              <div className="card-meta">
+                <span className="chip difficulty">{question.difficulty}</span>
+                <span className="chip category">{question.category}</span>
+              </div>
+              <div className="card-body">
+                <p className="card-question">{question.question}</p>
+
+                <div className="options-grid">
+                  {question.options?.map((option) => {
+                    const isSelected = selectedOption === option
+                    const showState = hasAnswered && isSelected
+                    const isRightChoice = hasAnswered && option === question.answer
+                    return (
+                      <button
+                        key={option}
+                        type="button"
+                        className={`option-chip${isSelected ? ' selected' : ''}${isRightChoice ? ' correct' : ''}${
+                          showState && !isRightChoice ? ' incorrect' : ''
+                        }`}
+                        onClick={() => onSelectOption(option)}
+                        disabled={disabled || hasAnswered}
+                      >
+                        {option}
+                      </button>
+                    )
+                  })}
+                </div>
+
+                {hasAnswered && (
+                  <p className={`answer-feedback ${isCorrect ? 'success' : 'error'}`}>
+                    {isCorrect ? 'Nice! That‘s correct ✔️' : `Not quite. The answer is ${question.answer}.`}
+                  </p>
+                )}
+              </div>
+
+              <div className="question-actions">
+                <button
+                  className="refresh-button primary"
+                  onClick={hasMoreQuestions ? onNext : onRefresh}
+                  disabled={!hasAnswered || loading}
+                >
+                  {hasMoreQuestions ? 'Next question' : 'End Game'}
+                </button>
+              </div>
+            </article>
+          )}
+        </div>
+      )}
+    </div>
+  )
+}
+
+TriviaBar.propTypes = {
+  question: PropTypes.shape({
+    id: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
+    question: PropTypes.string,
+    category: PropTypes.string,
+    difficulty: PropTypes.string,
+    answer: PropTypes.string,
+    options: PropTypes.arrayOf(PropTypes.string),
+  }),
+  loading: PropTypes.bool,
+  error: PropTypes.string,
+  onRefresh: PropTypes.func,
+  onSelectOption: PropTypes.func,
+  selectedOption: PropTypes.string,
+  isCorrect: PropTypes.bool,
+  onNext: PropTypes.func,
+  hasAnswered: PropTypes.bool,
+  hasMoreQuestions: PropTypes.bool,
+}
+
+TriviaBar.defaultProps = {
+  question: null,
+  loading: false,
+  error: '',
+  onRefresh: () => {},
+  onSelectOption: () => {},
+  selectedOption: '',
+  isCorrect: null,
+  onNext: () => {},
+  hasAnswered: false,
+  hasMoreQuestions: false,
+}
+
+export default TriviaBar
