@@ -11,7 +11,7 @@ Your app has two parts that need to be deployed:
 ## Prerequisites
 
 - GitHub account (your repo: `hanyu060215/VirtualPets-Trivia`)
-- Gemini API key: `AIzaSyAZpF_ZUXyJRGec7QJ60JEcmm3W2RCajCM`
+- Gemini API key (get one at https://aistudio.google.com/app/apikey)
 - Accounts on hosting platforms (free tiers available)
 
 ---
@@ -44,7 +44,7 @@ Your app has two parts that need to be deployed:
    - Click "Environment" tab
    - Add these variables:
      ```
-     GEMINI_API_KEY = AIzaSyAZpF_ZUXyJRGec7QJ60JEcmm3W2RCajCM
+     GEMINI_API_KEY = your_actual_api_key_here
      PORT = 5001
      GEMINI_MODEL = models/gemini-2.0-flash
      ```
@@ -155,7 +155,7 @@ Test on your phone before deploying using ngrok or Cloudflare Tunnel.
 2. **Start your backend**:
    ```bash
    cd server
-   GEMINI_API_KEY=AIzaSyAZpF_ZUXyJRGec7QJ60JEcmm3W2RCajCM npm start
+   GEMINI_API_KEY=your_actual_api_key_here npm start
    ```
 
 3. **Start your frontend** (in another terminal):
