@@ -15,7 +15,7 @@ export default defineConfig({
   server: {
     proxy: {
       '/api': {
-        target: 'http://localhost:5000', // backend URL
+        target: 'http://localhost:5001', // backend URL
         changeOrigin: true,               // required for CORS
         // no rewrite needed since your backend expects /api
       },

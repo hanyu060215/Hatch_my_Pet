@@ -2,16 +2,16 @@ import PropTypes from "prop-types"
 import "./Trivia_bar.css"
 
 const TriviaBar = ({
-  question,
-  loading,
-  error,
-  onSelectOption,
-  selectedOption,
-  isCorrect,
-  onNext,
-  hasAnswered,
-  hasMoreQuestions,
-  onEndGame,
+  question = null,
+  loading = false,
+  error = "",
+  onSelectOption = () => {},
+  selectedOption = "",
+  isCorrect = null,
+  onNext = () => {},
+  hasAnswered = false,
+  hasMoreQuestions = false,
+  onEndGame = () => {},
 }) => {
   const disabled = loading || !question
 
@@ -104,19 +104,6 @@ TriviaBar.propTypes = {
   hasAnswered: PropTypes.bool,
   hasMoreQuestions: PropTypes.bool,
   onEndGame: PropTypes.func,
-}
-
-TriviaBar.defaultProps = {
-  question: null,
-  loading: false,
-  error: '',
-  onSelectOption: () => {},
-  selectedOption: '',
-  isCorrect: null,
-  onNext: () => {},
-  hasAnswered: false,
-  hasMoreQuestions: false,
-  onEndGame: () => {},
 }
 
 export default TriviaBar
