@@ -4,7 +4,7 @@
 
 **An AI-powered trivia game where your pet evolves as you answer questions!**
 
-[Live Demo](https://virtualpets-trivia.netlify.app) 
+[Live Demo](https://cheerful-mooncake-6e4c7a.netlify.app) 
 </div>
 
 ---
