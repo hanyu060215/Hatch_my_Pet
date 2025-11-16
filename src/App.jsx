@@ -249,7 +249,7 @@ function App() {
     } catch (err) {}
   }, [correctCount, fetchQuestions, isMuted, resetAnswerState, startGeneratedAudio, stopGeneratedAudio])
 
-  const handleStart = async (event) => {
+  const handleLockIn = async (event) => {
     if (isPlaying) return
     if (event) event.preventDefault()
 
@@ -295,8 +295,6 @@ function App() {
     endGame("Time's up! Thanks for playing.")
   }
 
-  const startButtonLabel = isPlaying ? "Timer running" : isGameOver ? "Play again" : "Start"
-
   const shouldShowTrivia = isPlaying && currentQuestion
 
   const petStageImage = (() => {
@@ -312,7 +310,7 @@ function App() {
     <div className="keyword-menu">
       <p className="keyword-menu-title">Trivia Menu</p>
       <p className="keyword-subtext">Type 1-3 keywords (comma separated) to set the topic.</p>
-      <form className="keyword-inline-form" onSubmit={handleStart}>
+      <form className="keyword-inline-form" onSubmit={handleLockIn}>
         <textarea
           value={keywordInput}
           onChange={(event) => {
@@ -358,10 +356,6 @@ function App() {
           </button>
           <Timer key={gameRound} duration={60} isActive={isPlaying} onComplete={handleTimeExpired} />
         </div>
-
-        <button className="start-button" onClick={handleStart} disabled={isPlaying}>
-          {startButtonLabel}
-        </button>
 
       </div>
         <audio ref={audioRef} src="/test.mp3" preload="auto" />
