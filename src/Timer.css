@@ -1,16 +1,9 @@
-.hud {
-  position: absolute;
-  top: 20px;      /* Change this to move both vertically */
-  left: 24px;     /* Change this to move both horizontally */
-  right: 24px;    /* Maintains spacing from right edge */
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  z-index: 10;
-}
-
 .timer-container {
   min-width: 120px;
+  width: auto;          /* ✨ fixes stretching */
+  display: inline-flex; /* ✨ shrink to content width */
+  justify-content: center;
+
   font-family: 'Space Grotesk', 'Inter', sans-serif;
   background: rgba(255, 255, 255, 0.18);
   padding: 8px 18px;
@@ -19,6 +12,7 @@
   box-shadow: 0 10px 25px rgba(10, 0, 28, 0.35);
   text-align: center;
 }
+
 
 .timer {
   min-width: 60px;

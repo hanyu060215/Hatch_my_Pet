@@ -1,41 +1,19 @@
-.progress-bar-container {
-  position: fixed;     /* makes it visible without touching App.jsx */
-  top: 100px;          /* adjust vertical position */
-  left: 50%;           /* center horizontally */
-  transform: translateX(-50%);
-  width: 300px;
-  height: 30px;
+.progress-bar-wrapper {
+  width: 150px;  /* adjust as needed */
+  height: 18px;
+  background: rgba(255, 255, 255, 0.18);
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.35);
+  box-shadow: 0 10px 25px rgba(10, 0, 28, 0.35);
   overflow: hidden;
-  z-index: 999;
-  background-color: #ddd; /* optional, to see container */
+  position: relative;
 }
 
-.progress-bar-color {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
+/* The filling bar */
+.progress-bar-fill {
   height: 100%;
-  background-color: #4caf50;
-}
-
-.progress-bar-cover {
-  position: absolute;
-  top: 0;
-  right: 0;
-  height: 100%;
-  background-color: #ffffff;
-  transition: width 0.3s ease;
-  z-index: 2;
-}
-
-.progress-bar-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: contain; /* keeps PNG proportion */
-  z-index: 3;
-  pointer-events: none;
+  background: linear-gradient(120deg, #ffd369, #ffb347);
+  box-shadow: inset 0 0 6px rgba(255, 255, 255, 0.6);
+  border-radius: inherit;
+  transition: width 0.4s ease;
 }
