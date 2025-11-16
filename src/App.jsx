@@ -394,7 +394,7 @@ function App() {
           ) : isPlaying ? (
             <>
               <p className="placeholder-body">
-                {questionError ? "We hit a glitch fetching your question." : "Summoning your first cosmic question…"}
+                {questionError ? "We hit a glitch fetching your question." : "Summoning your questions…"}
               </p>
               {questionError && (
                 <button className="placeholder-action" onClick={fetchQuestions} disabled={isLoadingQuestions}>
