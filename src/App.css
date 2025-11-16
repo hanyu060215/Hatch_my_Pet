@@ -140,24 +140,24 @@
   color: rgba(255, 255, 255, 0.75);
 }
 
-.placeholder-action {
-  margin-top: 16px;
-  padding: 10px 22px;
-  border-radius: 999px;
-  border: 1px solid rgba(255, 255, 255, 0.4);
-  background: transparent;
-  color: #fefbff;
-  font-weight: 600;
+/* Audio toggle button styles */
+.audio-toggle-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 10px;
+  border: none;
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
   cursor: pointer;
-  transition: transform 150ms ease, border-color 150ms ease;
 }
 
-.placeholder-action:disabled {
-  opacity: 0.6;
-  cursor: default;
+.audio-toggle-btn svg {
+  display: block;
 }
 
-.placeholder-action:not(:disabled):hover {
-  transform: translateY(-1px);
-  border-color: rgba(255, 255, 255, 0.7);
+.audio-toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
 }

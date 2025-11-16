@@ -1,4 +1,4 @@
-import { useCallback, useState } from "react"
+import { useCallback, useEffect, useRef, useState } from "react"
 import Timer from "./Timer.jsx"
 import ProgressBar from "./Progress_bar.jsx"
 import TriviaBar from "./Trivia_bar.jsx"
@@ -23,6 +23,7 @@ function App() {
   const [questionError, setQuestionError] = useState("")
   const [correctCount, setCorrectCount] = useState(0)
   const [endMessage, setEndMessage] = useState("")
+  const [isMuted, setIsMuted] = useState(false)
 
   const isPlaying = gameState === GAME_STATES.playing
   const isGameOver = gameState === GAME_STATES.ended
@@ -35,6 +36,77 @@ function App() {
     setSelectedOption("")
     setIsCorrect(null)
   }, [])
+
+  const audioRef = useRef(null)
+  const audioContextRef = useRef(null)
+  const oscillatorRef = useRef(null)
+  const generatedAudioActive = useRef(false)
+
+  useEffect(() => {
+    const audio = audioRef.current
+    if (!audio) return
+    audio.loop = true
+    audio.volume = 0.35
+    audio.muted = isMuted
+    // also reflect mute to generated audio gain if active
+    try {
+      const g = oscillatorRef.current?.gain
+      if (g) g.gain.value = isMuted ? 0 : 0.02
+    } catch (e) {}
+  }, [isMuted])
+
+  const startGeneratedAudio = () => {
+    if (generatedAudioActive.current) return
+    try {
+      const AudioContext = window.AudioContext || window.webkitAudioContext
+      const ctx = new AudioContext()
+      audioContextRef.current = ctx
+      const osc = ctx.createOscillator()
+      const gain = ctx.createGain()
+      osc.type = 'sine'
+      osc.frequency.value = 220
+      gain.gain.value = 0.02
+      osc.connect(gain)
+      gain.connect(ctx.destination)
+      osc.start()
+      oscillatorRef.current = { osc, gain }
+      generatedAudioActive.current = true
+      if (isMuted) gain.gain.value = 0
+    } catch (e) {
+      // WebAudio not available, ignore
+    }
+  }
+
+  const stopGeneratedAudio = () => {
+    try {
+      if (!generatedAudioActive.current) return
+      const { osc, gain } = oscillatorRef.current || {}
+      if (osc) {
+        try { osc.stop() } catch (e) {}
+      }
+      if (audioContextRef.current) {
+        try { audioContextRef.current.close() } catch (e) {}
+      }
+    } finally {
+      oscillatorRef.current = null
+      audioContextRef.current = null
+      generatedAudioActive.current = false
+    }
+  }
+
+  /**
+   * If you prefer to bundle the audio with the app (instead of placing it in `public/`),
+   * you can import it from `src/assets` and use it as the audio src:
+   *
+   * Example (uncomment and add a file at `src/assets/background.mp3`):
+   *
+   * // import bg from './assets/background.mp3'
+   * // and then set <audio ref={audioRef} src={bg} preload="auto" />
+   *
+   * Note: importing will make Vite include the audio in the bundle and the path
+   * will be handled automatically. If you add the file later, update this file
+   * to import it and remove the `/background.mp3` public fallback.
+   */
 
   const fetchQuestions = useCallback(async () => {
     setIsLoadingQuestions(true)
@@ -69,11 +141,17 @@ function App() {
       setGameState(GAME_STATES.ended)
       setEndMessage(message)
       resetAnswerState()
+      try {
+        const audio = audioRef.current
+        if (audio) audio.pause()
+      } catch (e) {}
+      // stop generated audio if active
+      try { stopGeneratedAudio() } catch (e) {}
     },
     [resetAnswerState]
   )
 
-  const handleStart = () => {
+  const handleStart = async () => {
     if (isPlaying) return
     setGameState(GAME_STATES.playing)
     setEndMessage("")
@@ -83,6 +161,33 @@ function App() {
     resetAnswerState()
     setCorrectCount(0)
     fetchQuestions()
+    // Try to play background audio (user gesture from Start button)
+    try {
+      const audio = audioRef.current
+      if (audio) {
+        const url = audio.src
+        // Check if the audio file exists on the server. Use HEAD to avoid downloading the body.
+        try {
+          const resp = await fetch(url, { method: "HEAD" })
+          if (resp.ok && !isMuted) {
+            const p = audio.play()
+            if (p && typeof p.then === "function") p.catch(() => {})
+            try { stopGeneratedAudio() } catch (e) {}
+          } else if (resp.ok && isMuted) {
+            // file exists but muted: ensure generated audio is stopped
+            try { stopGeneratedAudio() } catch (e) {}
+          } else {
+            // file missing or server returned error -> use generated fallback
+            try { startGeneratedAudio() } catch (e) {}
+          }
+        } catch (e) {
+          // network error or CORS -> fallback to generated audio
+          try { startGeneratedAudio() } catch (e) {}
+        }
+      } else {
+        try { startGeneratedAudio() } catch (e) {}
+      }
+    } catch (e) {}
   }
 
   const handleNextQuestion = () => {
@@ -97,6 +202,10 @@ function App() {
 
   const handleManualEndGame = () => {
     endGame("Nice work! You wrapped up this round.")
+  }
+
+  const toggleMute = () => {
+    setIsMuted((v) => !v)
   }
 
   const handleTimeExpired = () => {
@@ -122,6 +231,26 @@ function App() {
       <div className="screen-content">
         <div className="hud">
           <ProgressBar score={correctCount} maxScore={totalQuestions} />
+          <button
+            className="audio-toggle-btn"
+            aria-label={isMuted ? "Unmute background music" : "Mute background music"}
+            onClick={toggleMute}
+            title={isMuted ? "Unmute" : "Mute"}
+          >
+            {isMuted ? (
+              // Speaker with mute slash
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M16 7L7 16" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" />
+                <path d="M7 9v6h4l5 4V5l-5 4H7z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+              </svg>
+            ) : (
+              // Speaker / sound waves
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M7 9v6h4l5 4V5l-5 4H7z" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" fill="none" />
+                <path d="M16.5 8.5c.9.9 1.5 2.2 1.5 3.5s-.6 2.6-1.5 3.5" stroke="currentColor" strokeWidth="1.2" strokeLinecap="round" strokeLinejoin="round" />
+              </svg>
+            )}
+          </button>
           <Timer key={gameRound} duration={60} isActive={isPlaying} onComplete={handleTimeExpired} />
         </div>
 
@@ -130,6 +259,8 @@ function App() {
         </button>
 
       </div>
+        <audio ref={audioRef} src="/background.mp3" preload="auto" />
+
 
       {shouldShowTrivia ? (
         <TriviaBar

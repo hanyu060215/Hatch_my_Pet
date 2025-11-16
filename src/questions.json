@@ -1,42 +1,122 @@
 [
-	{
-		"id": "seed-virtual-01",
-		"category": "Virtual Pets",
-		"difficulty": "Easy",
-		"question": "What year was the original Tamagotchi released?",
-		"answer": "1996",
-		"options": ["1992", "1996", "2001", "1989"]
-	},
-	{
-		"id": "seed-virtual-02",
-		"category": "Cosmic Companions",
-		"difficulty": "Medium",
-		"question": "In our app lore, what snack fuels Nova the cosmic fox?",
-		"answer": "Starlit mochi bites",
-		"options": ["Nebula noodles", "Starlit mochi bites", "Lunar chips", "Comet crunch"]
-	},
-	{
-		"id": "seed-virtual-03",
-		"category": "Animal Facts",
-		"difficulty": "Medium",
-		"question": "Which animal has fingerprints nearly identical to humans?",
-		"answer": "Koala",
-		"options": ["Koala", "Chimpanzee", "Panda", "Otter"]
-	},
-	{
-		"id": "seed-virtual-04",
-		"category": "Entertainment",
-		"difficulty": "Challenge",
-		"question": "Which sci-fi film introduced a virtual pet named 'Bit'?",
-		"answer": "Tron",
-		"options": ["Blade Runner", "Tron", "The Matrix", "Ready Player One"]
-	},
-	{
-		"id": "seed-virtual-05",
-		"category": "Speed Round",
-		"difficulty": "Easy",
-		"question": "How many legs does a fox have?",
-		"answer": "Four",
-		"options": ["Two", "Four", "Six", "Eight"]
-	}
+  {
+    "id": 201,
+    "category": "Movies",
+    "difficulty": 2,
+    "question": "In which year was the movie 'Titanic' first released?",
+    "options": ["1995", "1997", "1999", "2001"],
+    "correct_index": 1,
+    "explanation": "'Titanic' was released in 1997 and directed by James Cameron.",
+    "time_limit": 20,
+    "tags": ["Titanic", "Release Year"],
+    "image": null
+  },
+  {
+    "id": 202,
+    "category": "Music",
+    "difficulty": 1,
+    "question": "Which artist is commonly known as the 'King of Pop'?",
+    "options": ["Elvis Presley", "Michael Jackson", "Prince", "Freddie Mercury"],
+    "correct_index": 1,
+    "explanation": "Michael Jackson is widely referred to as the 'King of Pop'.",
+    "time_limit": 15,
+    "tags": ["Michael Jackson", "Title"],
+    "image": null
+  },
+  {
+    "id": 203,
+    "category": "Games",
+    "difficulty": 3,
+    "question": "Which platform did 'The Legend of Zelda: Breath of the Wild' launch alongside in 2017?",
+    "options": ["PlayStation 4", "Nintendo Switch", "Xbox One", "PC"],
+    "correct_index": 1,
+    "explanation": "Breath of the Wild launched with the Nintendo Switch and also released on Wii U.",
+    "time_limit": 25,
+    "tags": ["Zelda", "Switch"],
+    "image": null
+  },
+  {
+    "id": 204,
+    "category": "Science",
+    "difficulty": 4,
+    "question": "What is the approximate speed of light in vacuum in meters per second?",
+    "options": ["3.00 × 10^6", "3.00 × 10^7", "3.00 × 10^8", "3.00 × 10^9"],
+    "correct_index": 2,
+    "explanation": "The speed of light in vacuum is about 3.00 × 10^8 m/s.",
+    "time_limit": 30,
+    "tags": ["Physics", "Constants"],
+    "image": null
+  },
+  {
+    "id": 205,
+    "category": "History",
+    "difficulty": 2,
+    "question": "In which year did World War I begin?",
+    "options": ["1912", "1914", "1916", "1918"],
+    "correct_index": 1,
+    "explanation": "World War I began in 1914.",
+    "time_limit": 20,
+    "tags": ["WWI", "Dates"],
+    "image": null
+  },
+  {
+    "id": 206,
+    "category": "Technology",
+    "difficulty": 1,
+    "question": "HTML is primarily used to define which part of a webpage?",
+    "options": ["Style", "Structure", "Behavior", "Database"],
+    "correct_index": 1,
+    "explanation": "HTML defines the structure; CSS handles style and JavaScript handles behavior.",
+    "time_limit": 15,
+    "tags": ["HTML", "Web"],
+    "image": null
+  },
+  {
+    "id": 207,
+    "category": "Movies",
+    "difficulty": 3,
+    "question": "Who directed the film 'Inception'?",
+    "options": ["Steven Spielberg", "Christopher Nolan", "Quentin Tarantino", "Martin Scorsese"],
+    "correct_index": 1,
+    "explanation": "'Inception' was directed by Christopher Nolan.",
+    "time_limit": 20,
+    "tags": ["Inception", "Director"],
+    "image": null
+  },
+  {
+    "id": 208,
+    "category": "Music",
+    "difficulty": 3,
+    "question": "Which artist released the album titled '1989'?",
+    "options": ["Katy Perry", "Taylor Swift", "Adele", "Rihanna"],
+    "correct_index": 1,
+    "explanation": "'1989' is an album by Taylor Swift released in 2014.",
+    "time_limit": 20,
+    "tags": ["Taylor Swift", "1989"],
+    "image": null
+  },
+  {
+    "id": 209,
+    "category": "Games",
+    "difficulty": 2,
+    "question": "Is 'Minecraft' originally created by Markus Persson (Notch)?",
+    "options": ["True", "False"],
+    "correct_index": 0,
+    "explanation": "Markus Persson (Notch) began development of Minecraft in 2009.",
+    "time_limit": 12,
+    "tags": ["Minecraft", "Creator"],
+    "image": null
+  },
+  {
+    "id": 210,
+    "category": "Science",
+    "difficulty": 2,
+    "question": "Which gas do plants primarily use for photosynthesis?",
+    "options": ["Oxygen", "Carbon Dioxide", "Nitrogen", "Hydrogen"],
+    "correct_index": 1,
+    "explanation": "Plants take in carbon dioxide (CO2) for photosynthesis and release oxygen.",
+    "time_limit": 18,
+    "tags": ["Biology", "Photosynthesis"],
+    "image": null
+  }
 ]
