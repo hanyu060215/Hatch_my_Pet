@@ -188,14 +188,19 @@ function App() {
       setGameState(GAME_STATES.ended)
       setEndMessage(message)
       resetAnswerState()
+      setKeywordInput("")
       try {
         const audio = audioRef.current
         if (audio) audio.pause()
-      } catch (e) {}
+      } catch (e) {
+  console.warn("Failed to pause audio:", e);
+}
       // stop generated audio if active
       try {
         stopGeneratedAudio()
-      } catch (e) {}
+      } catch (e) {
+  console.warn("Failed to pause audio:", e);
+}
     },
     [resetAnswerState, stopGeneratedAudio]
   )
