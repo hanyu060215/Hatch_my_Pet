@@ -128,11 +128,11 @@ function getAdaptiveDifficultyInstruction(lastRoundScore) {
     }
     const scoreRatio = lastRoundScore / totalQuestionsPerRound;
     if (scoreRatio <= 0.4) { 
-        return `The user scored ${lastRoundScore} out of 10. Generate 3 Easy, 2 Medium, and 0 Hard questions.`;
+        return `The user scored ${lastRoundScore} out of 5. Generate 3 Easy, 2 Medium, and 0 Hard questions.`;
     } else if (scoreRatio <= 0.8) {
-        return `The user scored ${lastRoundScore} out of 10. Generate 1 Easy, 3 Medium, and 1 Hard question.`;
+        return `The user scored ${lastRoundScore} out of 5. Generate 1 Easy, 3 Medium, and 1 Hard question.`;
     } else {
-        return `The user scored ${lastRoundScore} out of 10. Generate 1 Medium, 3 Hard, and 1 Challenge question.`;
+        return `The user scored ${lastRoundScore} out of 5. Generate 1 Medium, 3 Hard, and 1 Challenge question.`;
     }
 }
 
@@ -149,7 +149,7 @@ app.post('/api/generateTrivia', async (req, res) => {
     const difficultyInstruction = getAdaptiveDifficultyInstruction(lastRoundScore);
 
     const systemPrompt = `You are a Trivia Question Generator.
-    1. You MUST generate exactly 10 questions based on the following keywords: ${keywordList.join(', ')}.
+    1. You MUST generate exactly 5 questions based on the following keywords: ${keywordList.join(', ')}.
     2. Your output MUST strictly adhere to the provided JSON Schema.
     3. Adapt the question difficulty based on this feedback: ${difficultyInstruction}`;
 
