@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import "./Timer.css";
 
-const Timer = ({ duration = 60, isActive }) => {
+const Timer = ({ duration = 60, isActive, onComplete = () => {} }) => {
   const [secondsLeft, setSecondsLeft] = useState(duration);
 
   // If duration changes, reset timer
@@ -32,6 +32,12 @@ const Timer = ({ duration = 60, isActive }) => {
       .toString()
       .padStart(2, "0")}`;
   };
+
+  useEffect(() => {
+    if (secondsLeft === 0 && isActive) {
+      onComplete();
+    }
+  }, [secondsLeft, isActive, onComplete]);
 
   return (
     <div className="timer-container">
