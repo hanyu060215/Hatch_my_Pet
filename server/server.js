@@ -23,7 +23,35 @@ const modelName = PRIMARY_MODEL
 const app = express()
 const port = process.env.PORT || 5001
 
+// CORS middleware - allow requests from any origin
+app.use((req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*')
+    res.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS')
+    res.header('Access-Control-Allow-Headers', 'Content-Type')
+    if (req.method === 'OPTIONS') {
+        return res.sendStatus(200)
+    }
+    next()
+})
+
 app.use(express.json())
+
+// Health check endpoint
+app.get('/health', (req, res) => {
+    res.json({ 
+        status: 'ok', 
+        model: modelName,
+        timestamp: new Date().toISOString()
+    })
+})
+
+app.get('/', (req, res) => {
+    res.json({ 
+        message: 'VirtualPets Trivia API',
+        endpoints: ['/health', '/api/generateTrivia'],
+        model: modelName
+    })
+})
 
 function getAdaptiveDifficultyInstruction(lastRoundScore) {
     const totalQuestionsPerRound = 5
@@ -129,6 +157,9 @@ The "answer" field must match one of the values in the "options" array exactly.`
     }
 })
 
-app.listen(port, () => {
-    console.log(`Trivia Backend listening at http://localhost:${port}`)
+app.listen(port, '0.0.0.0', () => {
+    console.log(`Trivia Backend listening at http://0.0.0.0:${port}`)
+    console.log(`Primary model: ${PRIMARY_MODEL}`)
+    console.log(`Fallback model: ${FALLBACK_MODEL}`)
+    console.log(`Environment: ${process.env.NODE_ENV || 'development'}`)
 })
