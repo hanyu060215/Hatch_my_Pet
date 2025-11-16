@@ -36,23 +36,55 @@ function App() {
     setIsCorrect(null)
   }, [])
 
+  // const fetchQuestions = useCallback(async () => {
+  //   setIsLoadingQuestions(true)
+  //   setQuestionError("")
+  //   try {
+  //     const aiQuestions = Array.isArray(generateTriviaQuestions)
+  //       ? [...generateTriviaQuestions]
+  //       : []
+  //     setQuestions(aiQuestions)
+  //     setCurrentQuestionIndex(0)
+  //     resetAnswerState()
+  //     setCorrectCount(0)
+  //   } catch (error) {
+  //     setQuestionError(error.message ?? "Could not load trivia")
+  //   } finally {
+  //     setIsLoadingQuestions(false)
+  //   }
+  // }, [resetAnswerState])
+
   const fetchQuestions = useCallback(async () => {
-    setIsLoadingQuestions(true)
-    setQuestionError("")
-    try {
-      const aiQuestions = Array.isArray(generateTriviaQuestions)
-        ? [...generateTriviaQuestions]
-        : []
-      setQuestions(aiQuestions)
-      setCurrentQuestionIndex(0)
-      resetAnswerState()
-      setCorrectCount(0)
-    } catch (error) {
-      setQuestionError(error.message ?? "Could not load trivia")
-    } finally {
-      setIsLoadingQuestions(false)
-    }
-  }, [resetAnswerState])
+  setIsLoadingQuestions(true)
+  setQuestionError("")
+  try {
+    const response = await fetch("/api/generateTrivia", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        keywords: "space, animals, math", // you can later replace with user input
+        lastRoundScore: correctCount, // adaptive difficulty
+      }),
+    })
+
+    if (!response.ok) throw new Error("Failed to fetch trivia questions")
+
+    const aiQuestions = await response.json()
+
+    if (!Array.isArray(aiQuestions)) throw new Error("Invalid trivia data received")
+
+    setQuestions(aiQuestions)
+    setCurrentQuestionIndex(0)
+    resetAnswerState()
+    setCorrectCount(0)
+  } catch (error) {
+    console.error(error)
+    setQuestionError(error.message ?? "Could not load trivia")
+  } finally {
+    setIsLoadingQuestions(false)
+  }
+}, [resetAnswerState, correctCount])
+
 
   const handleOptionSelect = (option) => {
     if (!isPlaying || !currentQuestion || hasAnswered || isLoadingQuestions) return
